@@ -40,7 +40,7 @@ void ofxMask::setup(int width, int height, Type type)
 #define _S(a) #a
 	switch(type) {
 		case ALPHA: {
-			masker_.allocate(width, height, GL_RGBA);
+			masker_.allocate(width, height, GL_RGBA, ofFbo::maxSamples());
 			string shader_src = _S(
 								   uniform sampler2DRect masker;
 								   uniform sampler2DRect maskee;
@@ -54,7 +54,7 @@ void ofxMask::setup(int width, int height, Type type)
 			shader_.linkProgram();
 		}	break;
 		case LUMINANCE: {
-			masker_.allocate(width, height, GL_RGB);
+			masker_.allocate(width, height, GL_RGB, ofFbo::maxSamples());
 			string shader_src = _S(
 								   uniform sampler2DRect masker;
 								   uniform sampler2DRect maskee;
@@ -72,7 +72,7 @@ void ofxMask::setup(int width, int height, Type type)
 #undef _S
 	width_ = width;
 	height_ = height;
-	maskee_.allocate(width, height, GL_RGBA);
+	maskee_.allocate(width, height, GL_RGBA, ofFbo::maxSamples());
 	makeTexCoords(tex_coords_, masker_.getTextureReference().getTextureData());
 	makeVertices(vertices_, masker_.getTextureReference().getTextureData());
 }
